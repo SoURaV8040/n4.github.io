@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>cookies</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      body {
+        background: #0f001b;
+        display: grid;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+      fieldset {
+        padding: 20px;
+        padding-left: 40px;
+        border-radius: 20px;
+        display: grid;
+        align-items: center;
+        justify-items: center;
+      }
+      legend {
+        text-align: center;
+        color: #05acee;
+        font-size: 1.5rem;
+      }
+      input {
+        margin: 10px;
+        font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+        padding: 5px;
+        border: 2px solid #00e04b;
+        font-size: 1rem;
+        border-radius: 10px;
+      }
+      #a,
+      #b,
+      #c {
+        color: wheat;
+        font-weight: 1000;
+      }
+      #c {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding-left: 70%;
+      }
+      #button {
+        padding: 6px 20px;
+        border: 2px solid #2acf4e;
+        border-radius: 10px;
+      }
+      .light {
+        background: #ffffff;
+        color: transparent;
+        border-radius: 50%;
+      }
+      .light1 {
+        background: #ff0000;
+        color: transparent;
+        box-shadow: 0 0 4px red, 0 0 8px red, 0 0 6px red;
+        border-radius: 50%;
+      }
+      .light2 {
+        background: #ffffff;
+        box-shadow: 0 0 4px #00ff00, 0 0 8px #00ff00, 0 0 6px #00ff00;
+        background: #00ff00;
+        color: transparent;
+        border-radius: 50%;
+      }
+      #message {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #e5ff00;
+        font-size: 2rem;
+        text-shadow: 0 0 2px #ff0000;
+      }
+    </style>
+  </head>
+  <body>
+    <fieldset>
+      <legend>Login</legend>
+      <div id="a">
+        Nickname:
+        <input
+          type="text"
+          id="inpName"
+          placeholder="Enter Email Address ..."
+          onkeyup="forName()"
+        />
+        <span id="lightX" class="light">....</span>
+      </div>
+      <div id="b">
+        Password:
+        <input
+          type="password"
+          id="inpPassword"
+          onkeyup="forPassword()"
+          placeholder="Enter Your Password..."
+        />
+        <span id="lightY" class="light">....</span>
+        <div id="c">
+          <input
+            type="checkbox"
+            onclick="showPassword()"
+            id="showPassword"
+          />Show
+        </div>
+      </div>
+      <div id="d">
+        <button id="button">Submit</button>
+      </div>
+    </fieldset>
+    <font id="message"></font>
+    <script>
+      const inpN = document.getElementById("inpName");
+      const inpP = document.getElementById("inpPassword");
+      const sp = document.getElementById("showPassword");
+      const lightX = document.getElementById("lightX");
+      const lightY = document.getElementById("lightY");
+      const Submit = document.getElementById("button");
+      var checkNm = false;
+      var checkPass = false;
+
+      function showCookies() {
+        const message = document.getElementById("message");
+        message.innerHTML = '';
+        const cu = document.cookie.split(";");
+        for (let i = 0; i < cu.length; i++) {
+          const cookies = cu[i].split("=");
+          message.innerHTML += cookies[0] + " : ";
+          message.innerHTML += cookies[1] + "<br/>";
+        }
+      }
+      showCookies(); 
+
+      Submit.onclick = () => {
+        if (checkNm && checkPass) {
+          const pas = document.getElementById("inpPassword").value;
+          const name = document.getElementById("inpName").value;
+          document.cookie = name + "=" + pas;
+          showCookies();
+        } else {
+          inpN.placeholder = "Fill The Input!";
+          inpP.placeholder = "Fill The Input!";
+        }
+      };
+
+      function forName() {
+        const name = document.getElementById("inpName").value;
+        const pattern = /^[a-zA-Z]{3,10}$/;
+        if (name.match(pattern)) {
+          lightX.classList.remove("light1");
+          lightX.classList.add("light2");
+          checkNm = true;
+        } else {
+          lightX.classList.remove("light");
+          lightX.classList.remove("light2");
+          lightX.classList.add("light1");
+          checkNm = false;
+        }
+      }
+      function forPassword() {
+        const pas = document.getElementById("inpPassword").value;
+        const pPattern = /^[a-zA-Z0-9]{3,10}$/;
+        if (pas.match(pPattern)) {
+          lightY.classList.remove("light1");
+          lightY.classList.add("light2");
+          checkPass = true;
+        } else {
+          lightY.classList.remove("light");
+          lightY.classList.remove("light2");
+          lightY.classList.add("light1");
+          checkPass = false;
+        }
+      }
+      function showPassword() {
+        if (sp.checked == true) {
+          inpP.type = "text";
+        } else {
+          inpP.type = "password";
+        }
+      }
+    </script>
+  </body>
+</html>
